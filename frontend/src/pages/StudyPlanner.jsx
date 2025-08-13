@@ -1,69 +1,72 @@
-
-
-import React, { useState, useRef } from 'react';
-import { Upload, Calendar, Sparkles, CheckCircle, AlertCircle } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-
-
-
-
+import React, { useState, useRef } from "react";
+import {
+  Upload,
+  Calendar,
+  Sparkles,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 const StudyPlanner = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
-  const [daysToPrepare, setDeadline] = useState('');
-  const [hoursPerDay, setHoursPerDay] = useState('');
-  const [studyPlan, setStudyPlan] = useState('');
+  const [daysToPrepare, setDeadline] = useState("");
+  const [hoursPerDay, setHoursPerDay] = useState("");
+  const [studyPlan, setStudyPlan] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const fileInputRef = useRef(null);
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
     if (file) {
       setUploadedFile(file);
-      setError('');
+      setError("");
     }
   };
 
   const handleGeneratePlan = async () => {
     if (!uploadedFile) {
-      setError('Please upload your study material.');
+      setError("Please upload your study material.");
       return;
     }
     if (!daysToPrepare) {
-      setError('Please set a daysToPrepare for your study plan.');
+      setError("Please set a daysToPrepare for your study plan.");
       return;
     }
     if (!hoursPerDay || hoursPerDay <= 0) {
-      setError('Please specify how many hours you can give per day.');
+      setError("Please specify how many hours you can give per day.");
       return;
     }
 
     setLoading(true);
-    setError('');
-    setStudyPlan('');
+    setError("");
+    setStudyPlan("");
 
     const formData = new FormData();
-    formData.append('file', uploadedFile);
-    formData.append('daysToPrepare', daysToPrepare);
-    formData.append('hoursPerDay', hoursPerDay);
+    formData.append("file", uploadedFile);
+    formData.append("daysToPrepare", daysToPrepare);
+    formData.append("hoursPerDay", hoursPerDay);
 
     try {
-      const response = await fetch('/api/generate-plan', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/generate-plan`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
         setStudyPlan(data.plan);
       } else {
         const errorData = await response.json();
-        setError(errorData.message || 'Failed to generate study plan.');
+        setError(errorData.message || "Failed to generate study plan.");
       }
     } catch (err) {
-      console.error('Error generating study plan:', err);
-      setError('An unexpected error occurred. Please try again.');
+      console.error("Error generating study plan:", err);
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -180,7 +183,9 @@ const StudyPlanner = () => {
             {/* Generate Plan Button */}
             <button
               onClick={handleGeneratePlan}
-              disabled={loading || !uploadedFile || !daysToPrepare || !hoursPerDay}
+              disabled={
+                loading || !uploadedFile || !daysToPrepare || !hoursPerDay
+              }
               className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white py-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02] flex items-center justify-center"
             >
               {loading ? (
@@ -224,7 +229,8 @@ const StudyPlanner = () => {
                       Your AI-generated study plan will appear here
                     </p>
                     <p className="text-sm text-gray-400 mt-2">
-                      Upload material and set a daysToPrepare to generate your plan
+                      Upload material and set a daysToPrepare to generate your
+                      plan
                     </p>
                   </div>
                 </div>

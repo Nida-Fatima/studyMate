@@ -11,8 +11,8 @@ import {
   AlertCircle,
   Sparkles,
 } from "lucide-react";
-import ReactMarkdown from 'react-markdown';
-import html2pdf from 'html2pdf.js';
+import ReactMarkdown from "react-markdown";
+import html2pdf from "html2pdf.js";
 
 const StudyMate = () => {
   const [inputText, setInputText] = useState("");
@@ -48,10 +48,13 @@ const StudyMate = () => {
           const formData = new FormData();
           formData.append("file", file);
 
-          const response = await fetch("/api/upload", {
-            method: "POST",
-            body: formData,
-          });
+          const response = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/api/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
 
           if (response.ok) {
             const data = await response.json();
@@ -73,18 +76,21 @@ const StudyMate = () => {
 
   const callBackendAPI = async (content, format, difficulty, length) => {
     try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content,
-          format,
-          difficulty,
-          length,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/generate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content,
+            format,
+            difficulty,
+            length,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -292,14 +298,17 @@ const StudyMate = () => {
   };
 
   const exportContent = () => {
-    const element = document.getElementById('pdf-content');
-    html2pdf().from(element).set({
-      margin: [10, 10, 10, 10], // top, left, bottom, right
-      filename: `study-material-${selectedFormat}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 4 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    }).save();
+    const element = document.getElementById("pdf-content");
+    html2pdf()
+      .from(element)
+      .set({
+        margin: [10, 10, 10, 10], // top, left, bottom, right
+        filename: `study-material-${selectedFormat}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 4 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      })
+      .save();
   };
 
   return (
@@ -579,7 +588,10 @@ const StudyMate = () => {
           </div>
         </div>
 
-        <div id="pdf-content" style={{ position: 'absolute', left: '-9999px', top: '-9999px' }}>
+        <div
+          id="pdf-content"
+          style={{ position: "absolute", left: "-9999px", top: "-9999px" }}
+        >
           <ReactMarkdown>{generatedContent}</ReactMarkdown>
         </div>
 
@@ -600,7 +612,6 @@ const StudyMate = () => {
               Built with ❤️ using AI • Transform any content into study
               materials instantly
             </p>
-            
           </div>
         </div>
       </footer>
