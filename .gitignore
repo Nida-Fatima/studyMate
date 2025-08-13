@@ -1,0 +1,48 @@
+# Node.js
+node_modules/
+npm-debug.log
+
+# Python
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env
+
+# Frontend specific
+frontend/node_modules/
+frontend/build/
+frontend/.env
+
+# Backend specific
+backend/node_modules/
+backend/.env
+backend/logs/
+
+# IDEs
+.vscode/
+.idea/
+
+
+# Additional logs
+*.log
+*.out
+*.err
+
+
+# Distribution files
+dist/
+
+# Build artifacts
+build/
+*.tgz
+*.zip
+*.tar.gz
+
