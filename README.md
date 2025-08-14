@@ -1,6 +1,6 @@
-# StudyMate: AI-Powered Study Assistant
+# Guidely: AI-Powered Study Assistant
 
-StudyMate is an intelligent web application designed to revolutionize your study process. It leverages AI to help you generate study materials from your content and create personalized study plans based on your material, available time, and deadlines.
+Guidely is an intelligent web application designed to revolutionize your study process. It leverages AI to help you generate study materials from your content and create personalized study plans based on your material, available time, and deadlines.
 
 ## Features
 
@@ -34,7 +34,7 @@ StudyMate is an intelligent web application designed to revolutionize your study
 
 ## Getting Started
 
-Follow these instructions to set up and run StudyMate locally on your machine.
+Follow these instructions to set up and run Guidely locally on your machine.
 
 ### Prerequisites
 

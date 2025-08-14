@@ -357,10 +357,13 @@ const StudyMate = () => {
                 <Brain className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  StudyMate
-                </h1>
-                <p className="text-xs text-gray-500">AI-Powered Learning</p>
+                <a
+                  href="/"
+                  className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+                >
+                  Guidely
+                </a>
+                <p className="text-xs text-gray-500">AI-Powered Study Guide</p>
               </div>
             </div>
             <nav className="flex space-x-6">
@@ -374,7 +377,7 @@ const StudyMate = () => {
                 href="/study-planner"
                 className="text-gray-600 hover:text-purple-600 transition-colors duration-200 font-medium"
               >
-                Study Planner
+                Generate Plan
               </a>
             </nav>
           </div>
@@ -382,7 +385,7 @@ const StudyMate = () => {
       </header>
 
       {/* Main Content */}
-      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative max-w-7xl lg:max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 gap-8">
           {/* Input Panel */}
           <div className="bg-white/70 backdrop-blur-lg rounded-2xl shadow-xl border border-white/30 p-6 hover:shadow-2xl transition-all duration-300">

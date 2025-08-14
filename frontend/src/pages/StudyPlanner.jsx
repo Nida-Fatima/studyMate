@@ -83,10 +83,13 @@ const StudyPlanner = () => {
                 <Calendar className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                  Study Planner
-                </h1>
-                <p className="text-xs text-gray-500">AI-Powered Organization</p>
+                <a
+                  href="/"
+                  className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
+                >
+                  Guidely
+                </a>
+                <p className="text-xs text-gray-500">AI-Powered Study Guide</p>
               </div>
             </div>
             <nav className="flex space-x-6">
@@ -100,7 +103,7 @@ const StudyPlanner = () => {
                 href="/study-planner"
                 className="text-gray-600 hover:text-purple-600 transition-colors duration-200 font-medium"
               >
-                Study Planner
+                Generate Plan
               </a>
             </nav>
           </div>
