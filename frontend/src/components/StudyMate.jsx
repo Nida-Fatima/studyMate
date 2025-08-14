@@ -10,6 +10,7 @@ import {
   CheckCircle,
   AlertCircle,
   Sparkles,
+  Loader,
 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import html2pdf from "html2pdf.js";
@@ -20,6 +21,7 @@ const StudyMate = () => {
   const [difficulty, setDifficulty] = useState("medium");
   const [length, setLength] = useState("medium");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [generatedContent, setGeneratedContent] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -36,11 +38,13 @@ const StudyMate = () => {
     if (file) {
       setUploadedFile(file);
       setError("");
+      setIsUploading(true);
 
       if (file.type === "text/plain") {
         const reader = new FileReader();
         reader.onload = (event) => {
           setInputText(event.target.result);
+          setIsUploading(false);
         };
         reader.readAsText(file);
       } else if (file.type === "application/pdf") {
@@ -49,7 +53,7 @@ const StudyMate = () => {
           formData.append("file", file);
 
           const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/upload`,
+            `${process.env.REACT_APP_BACKEND_URL}api/upload`,
             {
               method: "POST",
               body: formData,
@@ -69,6 +73,8 @@ const StudyMate = () => {
           setInputText(
             `[PDF file "${file.name}" uploaded. Backend connection needed for automatic extraction. Please paste the text content manually.]`
           );
+        } finally {
+          setIsUploading(false);
         }
       }
     }
@@ -77,7 +83,7 @@ const StudyMate = () => {
   const callBackendAPI = async (content, format, difficulty, length) => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/generate`,
+        `${process.env.REACT_APP_BACKEND_URL}api/generate`,
         {
           method: "POST",
           headers: {
@@ -311,6 +317,29 @@ const StudyMate = () => {
       .save();
   };
 
+  const renderFileUploadButton = () => {
+    if (isUploading) {
+      return (
+        <div className="flex items-center justify-center">
+          <Loader className="h-8 w-8 animate-spin text-purple-500" />
+          <p className="ml-2 text-gray-600 font-medium">Uploading...</p>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <Upload className="h-8 w-8 mx-auto mb-2 text-purple-400 group-hover:text-purple-500 transition-colors" />
+        <p className="text-gray-600 font-medium">
+          Upload PDF, DOC, or TXT file
+        </p>
+        <p className="text-sm text-gray-500 mt-1">
+          Drag and drop or click to browse
+        </p>
+      </>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
       {/* Animated Background */}
@@ -372,19 +401,15 @@ const StudyMate = () => {
                 onChange={handleFileUpload}
                 accept=".pdf,.txt,.doc,.docx"
                 className="hidden"
+                disabled={isUploading}
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
                 className="w-full border-2 border-dashed border-purple-300 bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl p-6 text-center hover:border-purple-400 hover:from-purple-100 hover:to-blue-100 transition-all duration-300 group"
               >
-                <Upload className="h-8 w-8 mx-auto mb-2 text-purple-400 group-hover:text-purple-500 transition-colors" />
-                <p className="text-gray-600 font-medium">
-                  Upload PDF, DOC, or TXT file
-                </p>
-                <p className="text-sm text-gray-500 mt-1">
-                  Drag and drop or click to browse
-                </p>
-                {uploadedFile && (
+                {renderFileUploadButton()}
+                {uploadedFile && !isUploading && (
                   <div className="mt-3 p-2 bg-green-100 rounded-lg">
                     <p className="text-sm text-green-700 font-medium">
                       ✓ {uploadedFile.name} uploaded

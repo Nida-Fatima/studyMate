@@ -50,7 +50,7 @@ const StudyPlanner = () => {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/generate-plan`,
+        `${process.env.REACT_APP_BACKEND_URL}api/generate-plan`,
         {
           method: "POST",
           body: formData,
